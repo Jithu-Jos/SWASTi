@@ -23,6 +23,7 @@ import nice_plots as nplt
 nplt.nice_plots(fs=20)
 from scipy.signal import find_peaks
 import glob
+import netCDF4 as nc
 import os
 import pandas as pd
 from dtaidistance import dtw

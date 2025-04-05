@@ -1,15 +1,15 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
+import matplotlib.gridspec as gridspec
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+import matplotlib.image as mpimg
 import imageio
 import os
 import sunpy
-import matplotlib.gridspec as gridspec
 import pyPLUTO.pload as pp
 from PIL import Image
 from datetime import datetime, timedelta
-from matplotlib.offsetbox import OffsetImage, AnnotationBbox
-import matplotlib.image as mpimg
 
 logo_path = "./SWASTi_logo.png" 
 logo = mpimg.imread(logo_path)

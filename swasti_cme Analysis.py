@@ -1,40 +1,30 @@
 # !pip3 install astropy
 # !pip3 install sunpy
 # !pip3 install numba
-# !pip3 install lxml
-# !pip3 install zeep
-# !pip3 install drms
-# !pip3 install h5netcdf
-# !pip3 install cdflib
-# !pip3 install netCDF4
-# ! pip3 install spacepy
-# ! pip3 install dtaidistance
+# !pip3 install dtaidistance
 
 import numba
 from numba import jit
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+import matplotlib.dates as mdates
 from datetime import datetime, timedelta
+import astropy
 from astropy import units as u
 from astropy.time import Time
-import astropy
+from astropy.constants import k_B, m_p
 import sunpy
 from sunpy.coordinates import frames
-import matplotlib.dates as mdates
+from sunpy.net import Fido, attrs
+from sunpy.timeseries import TimeSeries
 import nice_plots as nplt
 nplt.nice_plots(fs=20)
-import pandas as pd
 from scipy.signal import find_peaks
 import glob
 import os
-from sunpy.net import Fido, attrs
 import pandas as pd
-from sunpy.timeseries import TimeSeries
-import netCDF4 as nc
-from astropy.constants import k_B, m_p
-from spacepy import pycdf
-import matplotlib.image as mpimg
-from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from dtaidistance import dtw
 
 

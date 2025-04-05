@@ -1,15 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[4]:
-
-
-# !pip3 install ai.cs
-# !pip3 install ai.fri3d
-
-
-# In[6]:
-
 
 import numpy as np
 from ai import cs
@@ -18,10 +6,6 @@ from astropy import units as u
 from matplotlib import pyplot as plt
 from PIL import Image
 #from mpl_toolkits.mplot3d import proj3d
-
-
-# In[7]:
-
 
 #%% PLUTO setup
 
@@ -45,9 +29,6 @@ hh_rad = u.deg.to(u.rad, 43.0)
 v_t = 870    #v_cme/(1 + np.tan(hh_rad))
 
 
-# In[8]:
-
-
 time = dt*np.arange(0, 240, 1)
 radius = 0.081 + u.km.to(u.au, v_t*time)
 cr = 2284
@@ -55,10 +36,6 @@ output_dir = f"Input/CME1"
 input_dir = f"Input/CME1/"
 output_dir_gif = f"{cr}/Input_gif/CME_trial_periodic_new/"
 outputgif = f"{cr}/Input_gif/CME_trial_periodic_new/Input.gif"
-
-
-# In[9]:
-
 
 for i in range (0, len(radius)):
     sfr = StaticFRi3D(toroidal_height=u.au.to(u.m, radius[i]),
@@ -141,16 +118,6 @@ for i in range (0, len(radius)):
     fg5.close()
     fg6.close()
 
-
-# In[ ]:
-
-
-
-
-
-# In[80]:
-
-
 images = []
 num_frames = 240  # 
 os.makedirs(output_dir, exist_ok=True)
@@ -206,22 +173,5 @@ frames = [Image.open(f"{output_dir_gif}frame_input_{j}.png") for j in range(1,24
 frames[0].save(outputgif, save_all=True, append_images=frames[1:],  duration=200, loop=0)
                
 print( f"gif saved as {outputgif}")
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
 
 

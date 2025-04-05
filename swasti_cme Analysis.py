@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[287]:
-
-
 # !pip3 install astropy
 # !pip3 install sunpy
 # !pip3 install numba
@@ -16,11 +10,6 @@
 # ! pip3 install spacepy
 # ! pip3 install dtaidistance
 
-
-# In[390]:
-
-
-get_ipython().run_line_magic('matplotlib', 'inline')
 import numba
 from numba import jit
 import numpy as np
@@ -47,15 +36,6 @@ from spacepy import pycdf
 import matplotlib.image as mpimg
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from dtaidistance import dtw
-
-
-# In[ ]:
-
-
-
-
-
-# In[411]:
 
 
 #CR Map details 
@@ -91,9 +71,6 @@ file_pattern_swis = os.path.join(f'./{cr}/SWIS_{cr}', 'AL1_ASW91_L2_BLK_2024*_UN
 file_pattern_mag = os.path.join(f'./{cr}/Mag_{cr}', 'L2_AL1_MAG_2024*_V00.nc')
 
 
-# In[412]:
-
-
 date1 = "2024-09-18 02:52:02"  
 date2 = "2024-10-03 23:43:00" 
 
@@ -105,10 +82,6 @@ time_difference = datetime2 - datetime1
 seconds_difference = time_difference.total_seconds()
 
 print(f"The difference in seconds is: {seconds_difference}")
-
-
-# In[413]:
-
 
 def window(date, dataq, window_size):
     kq = np.zeros(len(datetime_list))
@@ -160,15 +133,6 @@ def window2(date_timestamps, dataq, datetime_timestamps, window_size):
 windowsize = 60 #in minutes
 
 
-# In[ ]:
-
-
-
-
-
-# In[414]:
-
-
 #Plot obs data
 
 # Obs_d = data
@@ -210,16 +174,6 @@ obs_t_array = np.array(obs_temp)
 mask_t = (obs_t_array != 9999999.)
 
 # print(dates)
-
-
-# In[ ]:
-
-
-
-
-
-# In[415]:
-
 
 # start_date_swis = datetime(2024, 8, 31) #2288
 start_date_swis = datetime(2024, 9, 18) #2289
@@ -311,10 +265,6 @@ else:
     with open(output_file, 'ab') as f:
         np.savetxt(f, data_to_save, delimiter="\t", fmt="%.6e")
 
-
-# In[416]:
-
-
 Obs_Aditya_swis = np.loadtxt(os.path.join(output_directory, f"processed_V_N_T_data.txt"),skiprows=1)
 Obs_Aditya_swis_v =[]
 Obs_Aditya_swis_rho = []
@@ -345,10 +295,6 @@ mag_load_bx_gse = mag_load_data[:, 1]
 mag_load_by_gse = mag_load_data[:, 2]
 mag_load_bz_gse = mag_load_data[:, 3]
 
-
-# In[417]:
-
-
 # CR_time_period = 2352590  #2288
 # CR_time_period = 4091225.0
 CR_time_period = 2484692.0  #2289
@@ -371,10 +317,6 @@ for i in range(len(t0_code)):
     result = get_datetime_from_elapsed_seconds(start_date, el_sec)
     t0_dt.append(result)
 
-
-# In[418]:
-
-
 vr_indx = 1
 rho_indx = 8
 prs_indx = 7
@@ -396,16 +338,7 @@ Bmag0 =  umag*np.sqrt(D0[:,Br_indx]**2 + D0[:,Bth_indx]**2 + D0[:,Bph_indx]**2)
 Bmag2 =  umag*np.sqrt(D2[:,Br_indx]**2 + D2[:,Bth_indx]**2 + D2[:,Bph_indx]**2)
 
 
-# In[ ]:
-
-
-
-
-
 # ## Moving Average
-
-# In[419]:
-
 
 # start_time = datetime(2024, 9, 1, 0, 0, 0)  #2288
 # end_time = datetime(2024, 9, 27, 0, 0, 0)  #2288
@@ -429,10 +362,6 @@ while current_time <= end_time:
 datetime_list_epoch_timestamps = np.array([e.timestamp() for e in datetime_list])
 datetime_list_epoch_seconds = datetime_list_epoch_timestamps - start_date_swis.timestamp()
 
-
-# In[420]:
-
-
 epoch_timestamps = np.array([e.timestamp() for e in Obs_Aditya_swis_date_array])
 epoch_seconds = epoch_timestamps - start_date_swis.timestamp()
 
@@ -447,10 +376,6 @@ moving_average_density_0 = window(t0_dt, D0[:,rho_indx]*urho, windowsize)
 # moving_average_density_1 = window(t0_dt[:6444], D1[:6444,rho_indx]*urho, windowsize)
 moving_average_density_2 = window(t0_dt, D2[:,rho_indx]*urho, windowsize)
 moving_average_density_Aditya_swis = window2(epoch_seconds, Obs_Aditya_swis_rho_array,datetime_list_epoch_seconds,  windowsize)
-
-
-# In[421]:
-
 
 time_combined =  [epoch_start + timedelta(seconds=int(t)) for t in mag_load_time]
 time_combined_timestamps = np.array([t.timestamp() for t in time_combined])- start_date_swis.timestamp()
@@ -472,10 +397,6 @@ moving_average_Mag_0 = window(t0_dt, Bmag0, windowsize)
 # moving_average_Mag_1 = window(t0_dt[:6444], Bmag1[:6444], windowsize)
 moving_average_Mag_2 = window(t0_dt, Bmag2, windowsize)  
 
-
-# In[422]:
-
-
 logo_path = "./SWASTi_logo.png" 
 logo = mpimg.imread(logo_path)
 print(np.shape(moving_average_speed_Aditya_swis))
@@ -484,10 +405,6 @@ print(np.shape(moving_average_speed_2))
 
 # print(moving_average_speed_Aditya_swis)
 # print(moving_average_speed_Obs)
-
-
-# In[429]:
-
 
 f1 = plt.figure(figsize=[36,19])
 plt.subplots_adjust(wspace=1.2)
@@ -558,50 +475,12 @@ plt.savefig(os.path.join(output_directory,f'Sept_2024_{cr}_FR_Cone_cme_ISRO.png'
 plt.show()
 
 
-# In[ ]:
-
-
-
-
-
-# In[249]:
-
-
-# xxxxx = moving_average_speed_Aditya_swis
-
-
-# In[431]:
-
-
-moving_average_speed_Aditya_swis = moving_average_speed_Obs
-
-
-# In[311]:
-
-
-# moving_average_speed_Aditya_swis = xxxxx
-
-
-# In[231]:
-
-
 def rmse(x,y):
     return ((np.nanmean((x-y)**2))**0.5)
 
 def std_ratio(v_model, v_obs):
       return (abs(np.nanstd(v_obs) - np.nanstd(v_model))/np.nanstd(v_obs))
-    
-
-
-# In[ ]:
-
-
-
-
-
-# In[432]:
-
-
+   
 datasets = ["D0", "D2"]
 
 mask_D0 = ~np.isnan(moving_average_speed_Aditya_swis) & ~np.isnan(moving_average_speed_0)
@@ -635,16 +514,6 @@ data_speed = {
 df_speed = pd.DataFrame(data_speed)
 print(df_speed)
 
-
-# In[ ]:
-
-
-
-
-
-# In[208]:
-
-
 mask_D0_density = ~np.isnan(moving_average_density_Obs) & ~np.isnan(moving_average_density_0)
 mask_D2_density = ~np.isnan(moving_average_density_Obs) & ~np.isnan(moving_average_density_2)
 
@@ -676,44 +545,14 @@ data_density = {
 df_density = pd.DataFrame(data_density)
 print(df_density)
 
-
-# In[ ]:
-
-
-
-
-
-# In[263]:
-
-
 plt.figure(figsize = (12,3))
 # plt.plot(datetime_list, moving_average_speed_Obs,  label='Observed [ACE 5min]', color = "gray")
 plt.plot(datetime_list, moving_average_speed_0)
 ax1.minorticks_on()
 ax1.set_ylabel('Speed [km/s]')
 
-
-# In[265]:
-
-
 arrival_CME_1 = datetime(2024, 10, 10, 14, 46, 0)
 date_time_arrival = [arrival_CME_1]
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[280]:
-
 
 peaks_0, _ = find_peaks(moving_average_speed_0)
 
@@ -742,9 +581,6 @@ for i in [0]:
 print(delay1)
 
 
-# In[281]:
-
-
 # data_cme = {
 #     "Dataset" : datasets,
 #     "Delay": delay1,
@@ -753,21 +589,6 @@ print(delay1)
 # print(np.shape(data_cme["Speed"]))
 # df_cme = pd.DataFrame(data_cme)
 # print(df_cme)
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[387]:
 
 
 def compute_dtw(series1, series2, max_displacement=10):
@@ -791,9 +612,6 @@ def plot_alignment(series1, series2, path, max_lines=100):
     plt.show()
 
 
-# In[434]:
-
-
 mask_dtw = ~np.isnan(moving_average_speed_Obs) & ~np.isnan(moving_average_speed_2)
 dtw_distance, alignment_path = compute_dtw(moving_average_speed_Obs[mask_dtw][5000:], 
                                            moving_average_speed_2[mask_dtw][5000:], max_displacement=2000)
@@ -802,15 +620,6 @@ avg_cost_per_step = dtw_distance / len(alignment_path)
 # print(f"Average cost per step: {avg_cost_per_step}")
 
 
-# In[389]:
-
-
 filtered_dates = np.array(datetime_list)[mask_dtw]
 plot_alignment( moving_average_speed_Obs[mask_dtw][5000:], moving_average_speed_2[mask_dtw][5000:], alignment_path)
-
-
-# In[ ]:
-
-
-
 
